@@ -3,18 +3,17 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 
-export default function Home() {
+export const getServerSideProps = async () => {
+  const resp = await fetch('https://raw.githubusercontent.com/jherr/pokemon/main/index.json')
 
-  const [pokemon, setPokemon] = useState([])
-
-  useEffect(() => {
-    const getPokemon = async () => {
-      const resp = await fetch('https://raw.githubusercontent.com/jherr/pokemon/main/index.json')
-      setPokemon(await resp.json())
+  return {
+    props: {
+      pokemon: await resp.json(),
     }
+  }
+}
 
-    getPokemon()
-  }, [])
+const Home = ({ pokemon }) => {
 
   return (
     <div className={styles.container}>
@@ -37,3 +36,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Home
