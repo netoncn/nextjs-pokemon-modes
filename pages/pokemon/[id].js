@@ -3,7 +3,19 @@ import Head from 'next/head'
 import styles from '../../styles/Details.module.css'
 import Link from 'next/link'
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticPaths = async () => {
+    const resp = await fetch('https://raw.githubusercontent.com/jherr/pokemon/main/index.json')
+    const pokemon = await resp.json()
+
+    return {
+        paths: pokemon.map((pokemon) => ({
+            params: { id: pokemon.id.toString() },
+        })),
+        fallback: false,
+    }
+}
+
+export const getStaticProps = async ({ params }) => {
     const resp = await fetch(`https://raw.githubusercontent.com/jherr/pokemon/main/pokemon/${params.id}.json`)
 
     return {

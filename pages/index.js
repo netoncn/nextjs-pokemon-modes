@@ -3,7 +3,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const resp = await fetch('https://raw.githubusercontent.com/jherr/pokemon/main/index.json')
 
   return {
